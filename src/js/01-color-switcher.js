@@ -7,7 +7,7 @@ let intervalId;
 
 conteiner.addEventListener('click', (event) => {
    const clickedBtn = event.target;
-
+s
    if (clickedBtn.hasAttribute('data-start')){
        intervalId = setInterval(swithColor,1000);
        btnStart.disabled = true;
