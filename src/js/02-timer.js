@@ -6,6 +6,7 @@ const startBtn = document.querySelector('[data-start]');
 const timerValues = document.querySelectorAll('.value');
 
 let countdownInterval;
+let selectedUnixTime;
 
 const options = {
   enableTime: true,
@@ -13,7 +14,8 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    const selectedUnixTime = Math.floor(selectedDates[0].getTime() / 1000);
+    selectedUnixTime = selectedDates[0].getTime() / 1000;
+
     const nowUnixTime = Math.floor(new Date().getTime() / 1000);
 
     if (nowUnixTime > selectedUnixTime) {
@@ -37,12 +39,13 @@ function updateTimerDisplay({ days, hours, minutes, seconds }) {
 
 function startCountdown(targetUnixTime) {
   function updateCountdown() {
-    const nowUnixTime = Math.floor(new Date().getTime() / 1000);
+    const nowUnixTime = new Date().getTime() / 1000;
     const remainingTime = targetUnixTime - nowUnixTime;
 
     if (remainingTime <= 0) {
       clearInterval(countdownInterval);
       updateTimerDisplay({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      myInp.disabled = false;
     } else {
       const timeObject = convertMs(remainingTime * 1000);
       updateTimerDisplay(timeObject);
@@ -50,10 +53,10 @@ function startCountdown(targetUnixTime) {
   }
 
   countdownInterval = setInterval(updateCountdown, 1000);
+  myInp.disabled = true; 
 }
 
 startBtn.addEventListener('click', () => {
-  const selectedUnixTime = Math.floor(myInp._flatpickr.selectedDates[0].getTime() / 1000);
   startCountdown(selectedUnixTime);
 });
 

@@ -1,20 +1,23 @@
 'use strict'
 
 const conteiner = document.body;
+const btnStart = document.querySelector('[data-start]');
+const btnStop = document.querySelector('[data-stop]');
 let intervalId;
-let isActive = false;
 
 conteiner.addEventListener('click', (event) => {
    const clickedBtn = event.target;
 
-   if (clickedBtn.hasAttribute('data-start') && isActive === false){
+   if (clickedBtn.hasAttribute('data-start')){
        intervalId = setInterval(swithColor,1000);
-       isActive = true;
+       btnStart.disabled = true;
+       btnStop.disabled = false;
    }
 
    if (clickedBtn.hasAttribute('data-stop')){
      clearInterval(intervalId);
-     isActive = false;
+     btnStart.disabled = false;
+     btnStop.disabled = true;
  }
 
 })

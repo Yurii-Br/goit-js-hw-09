@@ -12,7 +12,7 @@ form.addEventListener('submit', async (event) => {
   const delay = Number(delayInput.value);
   const step = Number(stepInput.value);
   const amount = Number(amountInput.value);
-  await createPromises(delay, step, amount);
+  createPromises(delay, step, amount);
 });
 
 
@@ -27,16 +27,28 @@ function createPromise(position, delay) {
 }
 
 
-async function createPromises(delay, step, amount) {
-  for (let i = 0; i < amount; i++) {
-    try {
-      const { position, delay: currentDelay } = await createPromise(i + 1, delay);
-      Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${currentDelay}ms`);
-    } catch ({ position, delay: currentDelay }) {
-      Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${currentDelay}ms`);
-    }
+function createPromises(delay, step, amount) {
+  if(delay < 0 || step < 0 || amount <= 0){
+    createPromise(1, 0)
+      .then(({ position, delay: currentDelay }) => {
+        Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${currentDelay}ms`);
+      })
+      .catch(({ position, delay: currentDelay }) => {
+        Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${currentDelay}ms`);
+      });
+  }
+  else{
+    for (let i = 0; i < amount; i++) {
+      createPromise(i + 1, delay)
+        .then(({ position, delay: currentDelay }) => {
+          Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${currentDelay}ms`);
+        })
+        .catch(({ position, delay: currentDelay }) => {
+          Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${currentDelay}ms`);
+        });
   
-    delay += step;
+      delay += step;
+    }
   }
 }
 
