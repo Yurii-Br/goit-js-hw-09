@@ -29,13 +29,9 @@ function createPromise(position, delay) {
 
 function createPromises(delay, step, amount) {
   if(delay < 0 || step < 0 || amount <= 0){
-    createPromise(1, 0)
-      .then(({ position, delay: currentDelay }) => {
-        Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${currentDelay}ms`);
-      })
-      .catch(({ position, delay: currentDelay }) => {
-        Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${currentDelay}ms`);
-      });
+   
+        Notiflix.Notify.info('all data must be more that 0');
+      
   }
   else{
     for (let i = 0; i < amount; i++) {

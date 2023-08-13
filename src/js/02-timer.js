@@ -27,6 +27,7 @@ const options = {
     }
   },
 };
+startBtn.disabled = true;
 
 flatpickr(myInp, options);
 
@@ -38,6 +39,7 @@ function updateTimerDisplay({ days, hours, minutes, seconds }) {
 }
 
 function startCountdown(targetUnixTime) {
+ startBtn.disabled = true;
   function updateCountdown() {
     const nowUnixTime = new Date().getTime() / 1000;
     const remainingTime = targetUnixTime - nowUnixTime;
